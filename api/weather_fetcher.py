@@ -10,20 +10,20 @@ if API_KEY is None:
 
 
 class WeatherFetcher:
-    __base_url = "https://api.weatherapi.com/v1"
+    _base_url = "https://api.weatherapi.com/v1"
 
     def __init__(self, location):
-        self.__api_key = API_KEY
-        self.__location = location
+        self._api_key = API_KEY
+        self._location = location
 
         # Defaults to current weather. This exists for future expansion.
-        self.__forecast = False
+        self._forecast = False
 
     def fetch_weather(self):
-        period = "/forecast.json?" if self.__forecast else "/current.json?"
-        key = f"key={self.__api_key}"
-        location = f"&q={self.__location}"
-        url = self.__base_url + period + key + location
+        period = "/forecast.json?" if self._forecast else "/current.json?"
+        key = f"key={self._api_key}"
+        location = f"&q={self._location}"
+        url = self._base_url + period + key + location
 
         response = requests.get(url)
         response.raise_for_status()
