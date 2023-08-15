@@ -4,7 +4,7 @@ class Evaluator:
 
 
 class TempEvaluator(Evaluator):
-    def __init__(self, temp: int):
+    def __init__(self, temp: float):
         self.temp = temp
 
     def evaluate(self):
@@ -107,7 +107,7 @@ class UvEvaluator(Evaluator):
 
 
 class WindEvaluator(Evaluator):
-    def self__init__(self, wind: float):
+    def __init__(self, wind):
         self.wind = wind
 
     def evaluate(self):
