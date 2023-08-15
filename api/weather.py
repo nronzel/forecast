@@ -12,6 +12,15 @@ if API_KEY is None:
 
 
 def fetch_today_weather(location="auto:ip"):
+    """
+    Fetches the current weather based on the IP address by default,
+    or by the provided location.
+
+    Locations can be:
+        City, State
+        Zip code
+        Airport Code
+    """
     api = f"key={API_KEY}"
     location = f"&q={location}"
 
