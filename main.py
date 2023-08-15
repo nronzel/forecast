@@ -1,14 +1,13 @@
-from api.weather import *
-from utils.helpers import *
-
-
-def main():
-    data = fetch_today_weather()
-    weather = parse_today_weather(data)
-    location = parse_location(data)
-    print(weather)
-    print(location)
-
+from api.weather_fetcher import WeatherFetcher
+from models.checker import WeatherChecker
 
 if __name__ == "__main__":
-    main()
+    location = input("Enter your location (or leave empty for auto:ip): ")
+    if location == "":
+        location = "auto:ip"
+    fetcher = WeatherFetcher(location)
+    weather_data = fetcher.fetch_weather()
+
+    checker = WeatherChecker(weather_data)
+
+    print(checker.can_golf())
