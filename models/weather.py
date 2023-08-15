@@ -1,4 +1,3 @@
-from conditions import evaluator
 from conditions.evaluator import *
 
 
