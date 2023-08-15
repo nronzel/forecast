@@ -11,15 +11,15 @@ class WeatherFetcher:
         if self.__api_key is None:
             raise ValueError("API key not found or provided")
 
-        self.location = location # defaults to IP address lookup
+        self.location = location  # defaults to IP address lookup
         self.forecast = False  # defaults to current weather
         self.__base_url = "https://api.weatherapi.com/v1"
-
 
     def fetch_weather(self):
         period = "/forecast.json?" if self.forecast else "/current.json?"
         key = f"key={self.__api_key}"
-        url = self.__base_url + period + key
+        location = f"&q={self.location}"
+        url = self.__base_url + period + key + location
 
         response = requests.get(url)
         response.raise_for_status()
