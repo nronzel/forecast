@@ -12,9 +12,9 @@ if API_KEY is None:
     raise ValueError("API key not found or provided")
 
 
-def fetch_weather():
+def fetch_weather(location="auto:ip"):
     api = f"key={API_KEY}"
-    location = "&q=auto:ip"
+    location = f"&q={location}"
 
     url = BASE_URL + "/current.json?" + api + location
     response = requests.get(url)
@@ -38,7 +38,6 @@ def parse_weather(data):
         "wind": current_weather["wind_mph"],
         "gusts": current_weather["gust_mph"],
     }
-
 
     return weather
 
