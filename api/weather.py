@@ -1,6 +1,5 @@
 import os
 import requests
-import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +11,7 @@ if API_KEY is None:
     raise ValueError("API key not found or provided")
 
 
-def fetch_weather(location="auto:ip"):
+def fetch_today_weather(location="auto:ip"):
     api = f"key={API_KEY}"
     location = f"&q={location}"
 
@@ -26,7 +25,7 @@ def fetch_weather(location="auto:ip"):
         print(f"Failed with status code: {response.status_code}")
 
 
-def parse_weather(data):
+def parse_today_weather(data):
     current_weather = data["current"]
 
     weather = {

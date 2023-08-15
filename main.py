@@ -1,8 +1,9 @@
-from weather import *
+from api.weather import *
+
 
 def main():
-    data = fetch_weather()
-    weather = parse_weather(data)
+    data = fetch_today_weather()
+    weather = parse_today_weather(data)
     location = parse_location(data)
     print(weather)
     print(location)
