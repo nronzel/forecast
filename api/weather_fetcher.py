@@ -2,23 +2,27 @@ import os
 import requests
 from dotenv import load_dotenv
 
+load_dotenv()
+API_KEY = os.environ.get("WEATHER_API_KEY")
+
+if API_KEY is None:
+    raise ValueError("API key not found or provided")
+
 
 class WeatherFetcher:
-    def __init__(self, location="auto:ip"):
-        load_dotenv()
-        self.__api_key = os.environ.get("WEATHER_API_KEY")
+    __base_url = "https://api.weatherapi.com/v1"
 
-        if self.__api_key is None:
-            raise ValueError("API key not found or provided")
+    def __init__(self, location):
+        self.__api_key = API_KEY
+        self.__location = location
 
-        self.location = location  # defaults to IP address lookup
-        self.forecast = False  # defaults to current weather
-        self.__base_url = "https://api.weatherapi.com/v1"
+        # Defaults to current weather. This exists for future expansion.
+        self.__forecast = False
 
     def fetch_weather(self):
-        period = "/forecast.json?" if self.forecast else "/current.json?"
+        period = "/forecast.json?" if self.__forecast else "/current.json?"
         key = f"key={self.__api_key}"
-        location = f"&q={self.location}"
+        location = f"&q={self.__location}"
         url = self.__base_url + period + key + location
 
         response = requests.get(url)
