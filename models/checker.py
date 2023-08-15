@@ -1,4 +1,4 @@
-from weather import Weather
+from .weather import Weather
 from responses.response_manager import ResponseManager
 
 
