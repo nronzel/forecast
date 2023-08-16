@@ -53,7 +53,7 @@ class HumidityEvaluator(Evaluator):
             ((20.01, 30.00), 5),  # Dry
             ((30.01, 60.00), 10),  # Comfortable
             ((60.01, 70.00), 7),  # Slightly humid
-            ((70.01, 80.00), 5),  # Humid
+            ((70.01, 80.00), 4),  # Humid
             ((80.01, 90.00), 3),  # Very humid
             ((90.01, 100.00), 1),  # Extremely humid
         ]
