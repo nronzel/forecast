@@ -1,3 +1,4 @@
+from conditions.evaluator import FeelsLikeEvaluator, TempEvaluator
 from .weather import Weather
 from responses.response_manager import ResponseManager
 
