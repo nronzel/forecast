@@ -1,4 +1,3 @@
-from conditions.evaluator import FeelsLikeEvaluator, TempEvaluator
 from .weather import Weather
 from responses.response_manager import ResponseManager
 
@@ -10,4 +9,6 @@ class WeatherChecker:
 
     def can_golf(self):
         combined_score = self.weather.evaluate_conditions()
+
+        self.weather.pretty_print()
         return self.response_manager.get_response(combined_score)

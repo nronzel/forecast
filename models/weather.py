@@ -1,4 +1,3 @@
-import conditions
 from conditions.evaluator import *
 
 
@@ -56,3 +55,24 @@ class Weather:
         }
 
         return clean_weather
+
+    def pretty_print(self):
+        # Helper function to print a horizontal line
+        def print_line():
+            print("+" + "-" * 40 + "+")
+
+        # Print the weather data with a border
+        print_line()
+        print("|{:^40}|".format(" Weather Data "))
+        print_line()
+        for key, value in self.weather.items():
+            print("| {:<15} : {:>20} |".format(key.capitalize(), value))
+        print_line()
+
+        # Find and print the worst conditions with a border
+        worst_conditions = self.find_worst_conditions()
+        print("|{:^40}|".format(" Worst Conditions "))
+        print_line()
+        for condition in worst_conditions:
+            print("|{:^40}|".format(condition.capitalize()))
+        print_line()
