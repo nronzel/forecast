@@ -10,7 +10,7 @@ class Evaluator:
 
 
 class TempEvaluator(Evaluator):
-    def __init__(self, temp):
+    def __init__(self, temp: float):
         self.temp = temp
         self.scoring_ranges = [
             ((45, 50.99), 2),
@@ -28,7 +28,7 @@ class TempEvaluator(Evaluator):
 
 
 class FeelsLikeEvaluator(Evaluator):
-    def __init__(self, feels_like):
+    def __init__(self, feels_like: float):
         self.feels_like = feels_like
         self.scoring_ranges = [
             ((45, 50.99), 2),
@@ -61,13 +61,13 @@ class HumidityEvaluator(Evaluator):
 
 
 class UvEvaluator(Evaluator):
-    def __init__(self, uv: int):
+    def __init__(self, uv: float):
         self.uv = uv
         self.scoring_ranges = [
-            ((0, 1), 10),
-            ((2, 4), 8),
-            ((5, 7), 5),
-            ((8, 8), 3),
+            ((0, 1.99), 10),
+            ((2, 4.99), 8),
+            ((5, 7.99), 5),
+            ((8, 8.99), 3),
         ]
 
     def evaluate(self):
