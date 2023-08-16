@@ -28,7 +28,7 @@ class Tests(unittest.TestCase):
                     self.assertEqual(
                         response,
                         expected_response,
-                        f"curr score {score}, expected '{expected_response}' but got '{response}'",
+                        f"curr score {score}, expected {expected_response} but got {response}",
                     )
                     break
 
