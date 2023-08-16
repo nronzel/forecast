@@ -17,3 +17,10 @@ read. See example below.
 # example .env file
 WEATHER_API_KEY=YourApiKeyHere
 ```
+
+## TODO
+
+- [ ] Change data source from current to forecast to get precip_chance
+    - [ ] evaluator for precipitation precip_chance
+    - [ ] add precip_chance to test
+- [ ] Add location data to output
