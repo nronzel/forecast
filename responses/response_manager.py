@@ -1,16 +1,16 @@
 class ResponseManager:
-    # TODO - actual responses
+    # gpt generated responses for now..
     RESPONSES = {
-        (0, 1.99): "Don't go outside",
-        (2, 3.99): "2 or 3",
-        (4, 5.99): "4 or 5",
-        (6, 7.99): "6 or 7",
-        (8, 9.99): "8 or 9",
-        (10, 10.99): "Perfect day!",
+        (0, 1.99): "Golf today? Might as well play Russian roulette.",
+        (2, 3.99): "Brave the course today, and your ball isn't the only thing that'll be lost.",
+        (4, 5.99): "Golfing today is like playing on hard mode. Good luck.",
+        (6, 7.99): "The course might just play you today.",
+        (8, 9.99): "Decent conditions, but don't be surprised if the wind betrays you.",
+        (10, 10.99): "Nature's indifferent today. Your swing? That's on you.",
     }
 
     def get_response(self, score):
-        print(score)
+        # print(score)
         for (low, high), response in self.RESPONSES.items():
             if low <= score <= high:
                 return response
