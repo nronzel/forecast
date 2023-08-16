@@ -2,11 +2,23 @@ import unittest
 import random
 
 from responses.response_manager import ResponseManager
-from conditions.evaluator import Evaluator, FeelsLikeEvaluator, TempEvaluator
+from conditions.evaluator import (
+    Evaluator,
+    FeelsLikeEvaluator,
+    GustEvaluator,
+    HumidityEvaluator,
+    TempEvaluator,
+    UvEvaluator,
+    WindEvaluator,
+)
 
 EVALUATORS = [
     {"class": TempEvaluator, "param": "temp"},
     {"class": FeelsLikeEvaluator, "param": "feels_like"},
+    {"class": HumidityEvaluator, "param": "humidity"},
+    {"class": UvEvaluator, "param": "uv"},
+    {"class": WindEvaluator, "param": "wind"},
+    {"class": GustEvaluator, "param": "gust"},
 ]
 
 
@@ -82,11 +94,13 @@ class Tests(unittest.TestCase):
             )
 
 
+# loops through the EVALUATORS and tests each one
 for evaluator_info in EVALUATORS:
     test_func = lambda self, e=evaluator_info: self.evaluator_test(e["class"])
     setattr(TestEvaluators, f"test_{evaluator_info['class'].__name__}", test_func)
 
 
+# helpers
 def generate_floats(max_num, num_amount):
     return [round(random.uniform(0, max_num), 2) for _ in range(num_amount)]
 
