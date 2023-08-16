@@ -5,6 +5,8 @@
 Fetches the weather based on IP address, and let's you know whether you can
 go golfing or not.
 
+![screenshot](./output.png)
+
 ### API Requirements
 
 Requires a [WeatherAPI](https://www.weatherapi.com/) free tier key to use.
@@ -24,3 +26,4 @@ WEATHER_API_KEY=YourApiKeyHere
     - [ ] evaluator for precipitation precip_chance
     - [ ] add precip_chance to test
 - [ ] Add location data to output
+
