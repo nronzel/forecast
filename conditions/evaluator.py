@@ -13,14 +13,14 @@ class TempEvaluator(Evaluator):
     def __init__(self, temp: float):
         self.temp = temp
         self.scoring_ranges = [
-            ((45, 50.99), 2),
-            ((51, 60.99), 5),
-            ((61, 65.99), 6),
-            ((66, 70.99), 8),
-            ((71, 79.99), 10),
-            ((80, 83.99), 9),
-            ((84, 86.99), 6),
-            ((87, 93.99), 3),
+            ((32.00, 50.00), 2),  # Very cold
+            ((50.01, 60.00), 4),  # Cold
+            ((60.01, 68.00), 6),  # Cool
+            ((68.01, 77.00), 10),  # Comfortable
+            ((77.01, 85.00), 6),  # Warm
+            ((85.01, 95.00), 4),  # Hot
+            ((95.01, 105.00), 2),  # Very hot
+            ((105.01, 120.00), 1),  # Extremely hot
         ]
 
     def evaluate(self):
@@ -31,14 +31,14 @@ class FeelsLikeEvaluator(Evaluator):
     def __init__(self, feels_like: float):
         self.feels_like = feels_like
         self.scoring_ranges = [
-            ((45, 50.99), 2),
-            ((51, 60.99), 5),
-            ((61, 65.99), 6),
-            ((66, 70.99), 8),
-            ((71, 79.99), 10),
-            ((80, 83.99), 9),
-            ((84, 86.99), 6),
-            ((87, 95.99), 3),
+            ((32.00, 50.00), 2),  # Very cold
+            ((50.01, 60.00), 4),  # Cold
+            ((60.01, 68.00), 6),  # Cool
+            ((68.01, 77.00), 10),  # Comfortable
+            ((77.01, 85.00), 6),  # Warm
+            ((85.01, 95.00), 4),  # Hot
+            ((95.01, 105.00), 2),  # Very hot
+            ((105.01, 120.00), 1),  # Extremely hot
         ]
 
     def evaluate(self):
@@ -49,11 +49,13 @@ class HumidityEvaluator(Evaluator):
     def __init__(self, humidity: float):
         self.humidity = humidity
         self.scoring_ranges = [
-            ((0, 10.99), 10),
-            ((10, 40.99), 8),
-            ((41, 50.99), 5),
-            ((51, 70.99), 3),
-            ((71, 85.99), 2),
+            ((0.00, 20.00), 2),  # Extremely dry
+            ((20.01, 30.00), 5),  # Dry
+            ((30.01, 60.00), 10),  # Comfortable
+            ((60.01, 70.00), 7),  # Slightly humid
+            ((70.01, 80.00), 5),  # Humid
+            ((80.01, 90.00), 3),  # Very humid
+            ((90.01, 100.00), 1),  # Extremely humid
         ]
 
     def evaluate(self):
@@ -63,11 +65,13 @@ class HumidityEvaluator(Evaluator):
 class UvEvaluator(Evaluator):
     def __init__(self, uv: float):
         self.uv = uv
+
         self.scoring_ranges = [
-            ((0, 1.99), 10),
-            ((2, 4.99), 8),
-            ((5, 7.99), 5),
-            ((8, 8.99), 3),
+            ((0, 2), 10),  # Low danger
+            ((2.01, 5), 8),  # Moderate risk
+            ((5.01, 7), 6),  # High risk
+            ((7.01, 10), 4),  # Very high risk
+            ((10.01, 15), 2),  # Extreme risk
         ]
 
     def evaluate(self):
@@ -78,10 +82,11 @@ class WindEvaluator(Evaluator):
     def __init__(self, wind):
         self.wind = wind
         self.scoring_ranges = [
-            ((0, 2.99), 10),
-            ((3, 5.99), 8),
-            ((6, 8.99), 6),
-            ((9, 14.99), 4),
+            ((0, 5), 10),  # Little to no impact
+            ((5.01, 12), 8),  # Some adjustments needed
+            ((12.01, 20), 6),  # Noticeable impact
+            ((20.01, 29), 4),  # Challenging conditions
+            ((29.01, 40), 1),  # Extremely challenging
         ]
 
     def evaluate(self):
@@ -91,12 +96,13 @@ class WindEvaluator(Evaluator):
 class GustEvaluator(Evaluator):
     def __init__(self, gust: float):
         self.gust = gust
+
         self.scoring_ranges = [
-            ((0, 5.99), 10),
-            ((6, 8.99), 8),
-            ((9, 12.99), 5),
-            ((13, 17.99), 4),
-            ((18, 23.99), 2),
+            ((0, 7), 10),  # Little to no impact
+            ((7.01, 15), 8),  # Some adjustments needed
+            ((15.01, 25), 6),  # Noticeable impact
+            ((25.01, 35), 4),  # Challenging conditions
+            ((35.01, 50), 2),  # Extremely challenging
         ]
 
     def evaluate(self):
