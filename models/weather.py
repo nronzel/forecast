@@ -1,3 +1,4 @@
+import conditions
 from conditions.evaluator import *
 
 
@@ -26,6 +27,21 @@ class Weather:
         )
         average_score = total_score / len(self.evaluator_instances)
         return round(average_score)
+
+    def find_worst_conditions(self):
+        scores = {}
+        for condition, eval_instance in self.evaluator_instances.items():
+            score = eval_instance.evaluate()
+            scores[condition] = score
+
+        min_score = min(scores.values())
+
+        worst = []
+        for condition, score in scores.items():
+            if score == min_score:
+                worst.append(condition)
+
+        return worst
 
     def _clean_data(self, weather_data):
         c = weather_data["current"]
