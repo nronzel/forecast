@@ -25,7 +25,7 @@ class Weather:
             evaluator.evaluate() for evaluator in self.evaluator_instances.values()
         )
         average_score = total_score / len(self.evaluator_instances)
-        return average_score
+        return round(average_score)
 
     def _clean_data(self, weather_data):
         c = weather_data["current"]
