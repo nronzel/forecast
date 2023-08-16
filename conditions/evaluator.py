@@ -2,148 +2,102 @@ class Evaluator:
     def evaluate(self):
         raise NotImplementedError
 
+    def find_score(self, list, value):
+        for (min, max), score in list:
+            if min <= value <= max:
+                return score
+        return 1
+
 
 class TempEvaluator(Evaluator):
-    def __init__(self, temp: float):
+    def __init__(self, temp):
         self.temp = temp
+        self.scoring_ranges = [
+            ((45, 50.99), 2),
+            ((51, 60.99), 5),
+            ((61, 65.99), 6),
+            ((66, 70.99), 8),
+            ((71, 79.99), 10),
+            ((80, 83.99), 9),
+            ((84, 86.99), 6),
+            ((87, 93.99), 3),
+        ]
 
     def evaluate(self):
-        if 51 <= self.temp <= 59:
-            return 4
-
-        if 60 <= self.temp <= 65:
-            return 7
-
-        if 66 <= self.temp <= 70:
-            return 8
-
-        if 71 <= self.temp <= 75:
-            return 10
-
-        if 76 <= self.temp <= 80:
-            return 9
-
-        if 81 <= self.temp <= 85:
-            return 7
-
-        if 86 <= self.temp <= 92:
-            return 3
-
-        if self.temp >= 93:
-            return 1
-
-        if self.temp <= 50:
-            return 1
+        return self.find_score(self.scoring_ranges, self.temp)
 
 
 class FeelsLikeEvaluator(Evaluator):
-    def __init__(self, feels_like: int):
+    def __init__(self, feels_like):
         self.feels_like = feels_like
+        self.scoring_ranges = [
+            ((45, 50.99), 2),
+            ((51, 60.99), 5),
+            ((61, 65.99), 6),
+            ((66, 70.99), 8),
+            ((71, 79.99), 10),
+            ((80, 83.99), 9),
+            ((84, 86.99), 6),
+            ((87, 95.99), 3),
+        ]
 
     def evaluate(self):
-        if self.feels_like >= 100:
-            return 1
-
-        if self.feels_like <= 45:
-            return 1
-
-        if 70 <= self.feels_like <= 79:
-            return 10
-
-        if 80 <= self.feels_like <= 85:
-            return 8
-
-        if 60 <= self.feels_like <= 69:
-            return 7
-
-        if 50 <= self.feels_like <= 59:
-            return 4
-
-        return 3
+        return self.find_score(self.scoring_ranges, self.feels_like)
 
 
 class HumidityEvaluator(Evaluator):
-    def __init__(self, humidity):
+    def __init__(self, humidity: float):
         self.humidity = humidity
+        self.scoring_ranges = [
+            ((0, 10.99), 10),
+            ((10, 40.99), 8),
+            ((41, 50.99), 5),
+            ((51, 70.99), 3),
+            ((71, 85.99), 2),
+        ]
 
     def evaluate(self):
-        if self.humidity >= 90:
-            return 1
-
-        if 0 <= self.humidity <= 10:
-            return 10
-
-        if 11 <= self.humidity <= 40:
-            return 8
-
-        if 41 <= self.humidity <= 50:
-            return 5
-
-        if 51 <= self.humidity <= 70:
-            return 3
-
-        return 1
+        return self.find_score(self.scoring_ranges, self.humidity)
 
 
 class UvEvaluator(Evaluator):
     def __init__(self, uv: int):
         self.uv = uv
+        self.scoring_ranges = [
+            ((0, 1), 10),
+            ((2, 4), 8),
+            ((5, 7), 5),
+            ((8, 8), 3),
+        ]
 
     def evaluate(self):
-        if self.uv >= 9:
-            return 1
-
-        if self.uv <= 1:
-            return 10
-
-        if 2 <= self.uv <= 4:
-            return 8
-
-        if 5 <= self.uv <= 7:
-            return 5
-
-        if self.uv == 8:
-            return 3
+        return self.find_score(self.scoring_ranges, self.uv)
 
 
 class WindEvaluator(Evaluator):
     def __init__(self, wind):
         self.wind = wind
+        self.scoring_ranges = [
+            ((0, 2.99), 10),
+            ((3, 5.99), 8),
+            ((6, 8.99), 6),
+            ((9, 14.99), 4),
+        ]
 
     def evaluate(self):
-        if self.wind <= 2.0:
-            return 10
-
-        if self.wind >= 20.0:
-            return 1
-
-        if self.wind <= 5.0:
-            return 8
-
-        if 5.0 < self.wind <= 8.0:
-            return 6
-
-        if 8.0 < self.wind <= 14.0:
-            return 4
-
-        return 3
+        return self.find_score(self.scoring_ranges, self.wind)
 
 
 class GustEvaluator(Evaluator):
     def __init__(self, gust: float):
         self.gust = gust
+        self.scoring_ranges = [
+            ((0, 5.99), 10),
+            ((6, 8.99), 8),
+            ((9, 12.99), 5),
+            ((13, 17.99), 4),
+            ((18, 23.99), 2),
+        ]
 
     def evaluate(self):
-        if self.gust >= 25.0:
-            return 1
-
-        if self.gust <= 5.0:
-            return 10
-
-        if 5.0 < self.gust <= 7.0:
-            return 6
-
-        if 7.0 < self.gust <= 12.0:
-            return 4
-
-        return 3
+        return self.find_score(self.scoring_ranges, self.gust)
