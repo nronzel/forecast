@@ -18,7 +18,7 @@ class TempEvaluator(Evaluator):
             ((60.01, 68.00), 6),  # Cool
             ((68.01, 77.00), 10),  # Comfortable
             ((77.01, 85.00), 6),  # Warm
-            ((85.01, 95.00), 4),  # Hot
+            ((85.01, 95.00), 3),  # Hot
             ((95.01, 105.00), 2),  # Very hot
             ((105.01, 120.00), 1),  # Extremely hot
         ]
@@ -36,7 +36,7 @@ class FeelsLikeEvaluator(Evaluator):
             ((60.01, 68.00), 6),  # Cool
             ((68.01, 77.00), 10),  # Comfortable
             ((77.01, 85.00), 6),  # Warm
-            ((85.01, 95.00), 4),  # Hot
+            ((85.01, 95.00), 3),  # Hot
             ((95.01, 105.00), 2),  # Very hot
             ((105.01, 120.00), 1),  # Extremely hot
         ]
