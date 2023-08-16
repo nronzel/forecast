@@ -65,7 +65,6 @@ class HumidityEvaluator(Evaluator):
 class UvEvaluator(Evaluator):
     def __init__(self, uv: float):
         self.uv = uv
-
         self.scoring_ranges = [
             ((0, 2), 10),  # Low danger
             ((2.01, 5), 8),  # Moderate risk
@@ -96,7 +95,6 @@ class WindEvaluator(Evaluator):
 class GustEvaluator(Evaluator):
     def __init__(self, gust: float):
         self.gust = gust
-
         self.scoring_ranges = [
             ((0, 7), 10),  # Little to no impact
             ((7.01, 15), 8),  # Some adjustments needed
