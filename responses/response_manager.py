@@ -1,4 +1,5 @@
 class ResponseManager:
+    # TODO - actual responses
     RESPONSES = {
         (0, 1.99): "Don't go outside",
         (2, 3.99): "2 or 3",
@@ -9,6 +10,7 @@ class ResponseManager:
     }
 
     def get_response(self, score):
+        print(score)
         for (low, high), response in self.RESPONSES.items():
             if low <= score <= high:
                 return response
