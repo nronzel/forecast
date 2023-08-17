@@ -105,3 +105,12 @@ class GustEvaluator(Evaluator):
 
     def evaluate(self):
         return self.find_score(self.scoring_ranges, self.gust)
+
+
+# class PrecipEvaluator(Evaluator):
+#     def __init__(self, precip_chance):
+#         self.precip_chance = precip_chance
+#
+#     def evaluate(self):
+#         return self.find_score(self.scoring_ranges, self.precip_chance)
+
