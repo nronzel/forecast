@@ -1,7 +1,7 @@
 import os
 import requests
-from dotenv import load_dotenv
-from urllib.parse import urlencode, urljoin
+from dotenv import load_dotenv, set_key
+from urllib.parse import urlencode
 
 load_dotenv()
 API_KEY = os.environ.get("WEATHER_API_KEY")
@@ -11,23 +11,44 @@ if API_KEY is None:
 
 
 class WeatherFetcher:
-    _base_url = "https://api.weatherapi.com/v1"
+    _BASE_URL = "https://api.weatherapi.com/v1"
+    _DEFAULT_DAYS = 1
+    _DEFAULT_AQI = "no"  # Air Quality Index
+    _DEFAULT_ALERTS = "no"  # Weather Alerts
+    _ENV_FILE = ".env"
+    _API_KEY_ENV_VAR = "WEATHER_API_KEY"
 
-    def __init__(self, location):
-        self._api_key = API_KEY
+    def __init__(self, location, api_key=None):
+        if api_key:
+            self._write_api_key_to_env(api_key)
+        self._api_key = self._load_api_key()
         self._location = location
 
-    def _build_url(self, days: int, aqi="no", alerts="no"):
-        endpoint = "/forecast.json"
-        params = {
+    @classmethod
+    def _write_api_key_to_env(cls, api_key):
+        set_key(cls._ENV_FILE, cls._API_KEY_ENV_VAR, api_key)
+
+    @classmethod
+    def _load_api_key(cls):
+        load_dotenv(cls._ENV_FILE)
+        api_key = os.environ.get(cls._API_KEY_ENV_VAR)
+        if not api_key:
+            raise ValueError("API key not found or provided")
+        return api_key
+
+    def _get_params(self, days, aqi, alerts):
+        return {
             "key": self._api_key,
             "q": self._location,
             "days": days,
             "aqi": aqi,
             "alerts": alerts,
         }
-        query_string = urlencode(params)
-        return f"{self._base_url}{endpoint}?{query_string}"
+
+    def _build_url(self, days: int, aqi="no", alerts="no"):
+        endpoint = "/forecast.json"
+        query_string = urlencode(self._get_params(days, aqi, alerts))
+        return f"{self._BASE_URL}{endpoint}?{query_string}"
 
     def fetch_weather(self, days: int = 1, aqi="no", alerts="no"):
         url = self._build_url(days, aqi, alerts)
