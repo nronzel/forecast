@@ -25,7 +25,13 @@ class WeatherFetcher:
         load_dotenv(cls._ENV_FILE)
         api_key = os.environ.get(cls._API_KEY_ENV_VAR)
         if not api_key:
-            key = input("Please enter your API key: ")
+            key = input(
+                """
+                Please provide a free tier WeatherAPI API key.
+                Any key provided here is just written to a .env file
+                at the root of the project.
+                """
+            )
             cls._write_api_key_to_env(key)
             return key
         return api_key
