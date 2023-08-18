@@ -3,12 +3,6 @@ import requests
 from dotenv import load_dotenv, set_key
 from urllib.parse import urlencode
 
-load_dotenv()
-API_KEY = os.environ.get("WEATHER_API_KEY")
-
-if API_KEY is None:
-    raise ValueError("API key not found or provided")
-
 
 class WeatherFetcher:
     _BASE_URL = "https://api.weatherapi.com/v1"
@@ -18,9 +12,7 @@ class WeatherFetcher:
     _ENV_FILE = ".env"
     _API_KEY_ENV_VAR = "WEATHER_API_KEY"
 
-    def __init__(self, location, api_key=None):
-        if api_key:
-            self._write_api_key_to_env(api_key)
+    def __init__(self, location):
         self._api_key = self._load_api_key()
         self._location = location
 
@@ -33,7 +25,9 @@ class WeatherFetcher:
         load_dotenv(cls._ENV_FILE)
         api_key = os.environ.get(cls._API_KEY_ENV_VAR)
         if not api_key:
-            raise ValueError("API key not found or provided")
+            key = input("Please enter your API key: ")
+            cls._write_api_key_to_env(key)
+            return key
         return api_key
 
     def _get_params(self, days, aqi, alerts):
