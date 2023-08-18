@@ -1,4 +1,5 @@
 from conditions.evaluator import *
+from api.parser import Parser
 
 
 class Weather:
@@ -11,6 +12,7 @@ class Weather:
         Constructs the Weather object with provided weather data and evaluators.
         """
         self.weather = self._get_clean_data(weather_data)
+        self.parser = Parser(weather_data)
 
         if evaluators is None:
             evaluators = {
@@ -20,6 +22,7 @@ class Weather:
                 "uv": UvEvaluator,
                 "wind": WindEvaluator,
                 "gust": GustEvaluator,
+                "precip": PrecipEvaluator,
             }
 
         self.evaluator_instances = {}
@@ -37,6 +40,9 @@ class Weather:
         )
         average_score = total_score / len(self.evaluator_instances)
         return round(average_score)
+
+    def get_location_data(self):
+        return self.parser.parsed_location_data
 
     def _find_worst_conditions(self):
         """
@@ -61,7 +67,8 @@ class Weather:
         Cleans and structures raw weather data for relevent info for further
         processing
         """
-        c = weather_data["current"]
+        c = weather_data["current"]  # current weather
+        f = weather_data["forecast"]["forecastday"][0]["day"]  # forecast weather
         clean_weather = {
             "temp": c["temp_f"],
             "feels_like": c["feelslike_f"],
@@ -69,7 +76,7 @@ class Weather:
             "uv": c["uv"],
             "wind": c["wind_mph"],
             "gust": c["gust_mph"],
-            # "precip": c["precip_in"],
+            "precip": f["daily_chance_of_rain"],
         }
 
         return clean_weather
@@ -78,26 +85,21 @@ class Weather:
         """
         Displays the weather data and worst conditions in a formatted manner
         with borders.
-
-        Example Output:
-        +----------------------------------------+
-        |               Weather Data             |
-        +----------------------------------------+
-        | Temperature    :                  75.0 |
-        | Humidity       :                    60 |
-        +----------------------------------------+
-        |             What Sucks Today           |
-        +----------------------------------------+
-        |                Humidity                |
-        +----------------------------------------+
         """
 
         # Helper function to print a horizontal line
         def print_line():
             print("+" + "-" * 40 + "+")
 
-        # Print the weather data with a border
+        # Print the location data with a border
         print_line()
+        print("|{:^40}|".format(" Location Data "))
+        print_line()
+        for key, value in self.parser.parsed_location_data.items():
+            print("| {:<15} : {:>20} |".format(key.capitalize(), value))
+        print_line()
+
+        # Print the weather data with a border
         print("|{:^40}|".format(" Weather Data "))
         print_line()
         for key, value in self.weather.items():
