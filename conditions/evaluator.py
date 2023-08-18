@@ -107,10 +107,21 @@ class GustEvaluator(Evaluator):
         return self.find_score(self.scoring_ranges, self.gust)
 
 
-# class PrecipEvaluator(Evaluator):
-#     def __init__(self, precip_chance):
-#         self.precip_chance = precip_chance
-#
-#     def evaluate(self):
-#         return self.find_score(self.scoring_ranges, self.precip_chance)
+class PrecipEvaluator(Evaluator):
+    def __init__(self, precip_chance: float):
+        self.precip_chance = precip_chance
+        self.scoring_ranges = [
+            ((0, 10), 10),  # Almost no chance of rain
+            ((10.01, 20), 9),  # Very slight chance of rain
+            ((20.01, 30), 8),  # Slight chance of rain
+            ((30.01, 40), 7),  # Possible light showers
+            ((40.01, 50), 6),  # Moderate chance of rain
+            ((50.01, 60), 5),  # Expect some rain
+            ((60.01, 70), 4),  # Rain likely
+            ((70.01, 80), 3),  # Heavy rain expected
+            ((80.01, 90), 2),  # Very high chance of heavy rain
+            ((90.01, 100), 1),  # Almost certain heavy rain
+        ]
 
+    def evaluate(self):
+        return self.find_score(self.scoring_ranges, self.precip_chance)
