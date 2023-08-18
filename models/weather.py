@@ -4,33 +4,11 @@ from conditions.evaluator import *
 class Weather:
     """
     A class to represent and evaluate weather conditions.
-
-    Attributes:
-        weather (dict): A dictionary containing cleaned weather data.
-        evaluator_instances (dict): A dictionary containing evaluator instances
-        for each weather condition.
-
-    Methods:
-        evaluate_conditions() -> int:
-            Calculates and returns the average score of all weather conditions.
-
-        find_worst_conditions() -> List[str]:
-            Identifies and returns a list of the worst weather conditions based
-            on their scores.
-
-        _clean_data(weather_data: dict) -> dict:
-            Cleans and transforms the raw weather data into a usable format.
     """
 
     def __init__(self, weather_data, evaluators=None):
         """
         Constructs the Weather object with provided weather data and evaluators.
-
-        Args:
-            weather_data (dict): The raw weather data to be processed.
-            evaluators (dict, optional): A dictionary containing evaluator
-            classes for each weather condition (mainly used for testing new
-            evaluators). Defaults to built-in evaluators.
         """
         self.weather = self._get_clean_data(weather_data)
 
@@ -53,9 +31,6 @@ class Weather:
         """
         Evaluates the overall weather conditions based on individual condition
         scores.
-
-        Returns:
-            int: The average score of all evaluated weather conditions.
         """
         total_score = sum(
             evaluator.evaluate() for evaluator in self.evaluator_instances.values()
@@ -66,9 +41,6 @@ class Weather:
     def _find_worst_conditions(self):
         """
         Identifies the weather conditions with the lowest scores.
-
-        Returns:
-            List[str]: A list of weather conditions with the worst scores.
         """
         scores = {}
         for condition, eval_instance in self.evaluator_instances.items():
@@ -88,12 +60,6 @@ class Weather:
         """
         Cleans and structures raw weather data for relevent info for further
         processing
-
-        Args:
-            weather_data (dict): The raw weather data to be cleaned.
-
-        Returns:
-            dict: The cleaned weather data.
         """
         c = weather_data["current"]
         clean_weather = {
@@ -112,9 +78,6 @@ class Weather:
         """
         Displays the weather data and worst conditions in a formatted manner
         with borders.
-
-        The method first prints out the cleaned weather data, followed by the
-        worst conditions identified by the find_worst_conditions method.
 
         Example Output:
         +----------------------------------------+
