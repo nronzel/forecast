@@ -11,19 +11,6 @@ go golfing or not.
 
 Requires a [WeatherAPI](https://www.weatherapi.com/) free tier key to use.
 
-Create a file in the project directory called `.env` and add your API key.
-The variable must be called `WEATHER_API_KEY` in order for the key to be properly
-read. See example below.
-
-```
-# example .env file
-WEATHER_API_KEY=YourApiKeyHere
-```
-
-## TODO
-
-- ~~[x] Change data source from current to forecast to get precip_chance~~
-- [ ] evaluator for precipitation precip_chance
-- [ ] add precip_chance to test
-- [ ] Add location data to output
-- [ ] Add comments to explain code structure
+It will ask for your API key if it doesn't detect one in a .env file. The
+provided key will be written to the `WEATHER_API_KEY` variable in a .env file
+at the root of the project.
