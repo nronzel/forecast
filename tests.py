@@ -2,14 +2,16 @@ import unittest
 import random
 
 from responses.response_manager import ResponseManager
-from conditions.evaluator import (
-    Evaluator,
+from conditions.evaluator import Evaluator
+from conditions.condition_evaluators import (
     FeelsLikeEvaluator,
     GustEvaluator,
     HumidityEvaluator,
     TempEvaluator,
     UvEvaluator,
     WindEvaluator,
+    RainEvaluator,
+    SnowEvaluator,
 )
 
 EVALUATORS = [
@@ -19,6 +21,8 @@ EVALUATORS = [
     {"class": UvEvaluator, "param": "uv"},
     {"class": WindEvaluator, "param": "wind"},
     {"class": GustEvaluator, "param": "gust"},
+    {"class": RainEvaluator, "param": "rain_chance"},
+    {"class": SnowEvaluator, "param": "snow_chance"},
 ]
 
 
