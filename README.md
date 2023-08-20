@@ -23,3 +23,10 @@ is chosen and shown to the user.
 
 In a future release I will be adding more responses based on the worst
 weather conditions of the day.
+
+TODO:
+Not running in its current state, should have created a new branch but you live
+and you learn.
+
+Pushed latest code to work on later at my home computer.
+
