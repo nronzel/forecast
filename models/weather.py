@@ -1,4 +1,9 @@
 from conditions.evaluator import *
+from conditions.global_evaluators import (
+    TodaysForecastEvaluator,
+    CurrentWeatherEvaluator,
+    HourlyWeatherEvaluator,
+)
 from api.parser import Parser
 
 
@@ -7,38 +12,31 @@ class Weather:
     A class to represent and evaluate weather conditions.
     """
 
-    def __init__(self, weather_data, evaluators=None):
+    def __init__(self, weather_data):
         """
         Constructs the Weather object with provided weather data and evaluators.
         """
-        self.weather = self._get_clean_data(weather_data)
         self.parser = Parser(weather_data)
-
-        if evaluators is None:
-            evaluators = {
-                "temp": TempEvaluator,
-                "feels_like": FeelsLikeEvaluator,
-                "humidity": HumidityEvaluator,
-                "uv": UvEvaluator,
-                "wind": WindEvaluator,
-                "gust": GustEvaluator,
-                "precip": PrecipEvaluator,
-            }
-
-        self.evaluator_instances = {}
-        for key, Evaluator in evaluators.items():
-            if key in self.weather:
-                self.evaluator_instances[key] = Evaluator(self.weather[key])
+        self.todays_forecast_evaluator = TodaysForecastEvaluator(
+            self.parser.parsed_weather_data["todays_forecast"]
+        )
+        self.current_weather_evaluator = CurrentWeatherEvaluator(
+            self.parser.parsed_weather_data["current_weather"]
+        )
+        self.hourly_weather_evaluator = HourlyWeatherEvaluator(
+            self.parser.parsed_weather_data["hourly_weather"]
+        )
+        self.location_data = self.parser.parsed_location_data
 
     def evaluate_conditions(self):
         """
         Evaluates the overall weather conditions based on individual condition
         scores.
         """
-        total_score = sum(
-            evaluator.evaluate() for evaluator in self.evaluator_instances.values()
-        )
-        average_score = total_score / len(self.evaluator_instances)
+        todays_forecast_score = self.todays_forecast_evaluator.evaluate()
+        current_weather_score = self.current_weather_evaluator.evaluate()
+        total = todays_forecast_score + current_weather_score
+        average_score = total / 2
         return round(average_score)
 
     def get_location_data(self):
@@ -48,46 +46,22 @@ class Weather:
         """
         Identifies the weather conditions with the lowest scores.
         """
-        scores = {}
-        for condition, eval_instance in self.evaluator_instances.items():
-            score = eval_instance.evaluate()
-            scores[condition] = score
-
-        min_score = min(scores.values())
-
-        worst = []
-        for condition, score in scores.items():
-            if score == min_score:
-                worst.append(condition)
-
-        return worst
-
-    def _get_clean_data(self, weather_data):
-        """
-        Cleans and structures raw weather data for relevent info for further
-        processing
-        """
-        c = weather_data["current"]  # current weather
-        f = weather_data["forecast"]["forecastday"][0]["day"]  # forecast weather
-        clean_weather = {
-            "temp": c["temp_f"],
-            "feels_like": c["feelslike_f"],
-            "humidity": c["humidity"],
-            "uv": c["uv"],
-            "wind": c["wind_mph"],
-            "gust": c["gust_mph"],
-            "precip": f["daily_chance_of_rain"],
+        scores = {
+            "Today's Forecast": self.todays_forecast_evaluator.evaluate(),
+            "Current Weather": self.current_weather_evaluator.evaluate(),
+            "Hourly Weather": self.hourly_weather_evaluator.evaluate(),
         }
 
-        return clean_weather
+        min_score = min(scores.values())
+        worst = [condition for condition, score in scores.items() if score == min_score]
+        return worst
 
     def pretty_print(self):
         """
-        Displays the weather data and worst conditions in a formatted manner
-        with borders.
+        Displays the weather, location data, and worst conditions in a formatted
+        manner with borders.
         """
 
-        # Helper function to print a horizontal line
         def print_line():
             print("+" + "-" * 40 + "+")
 
@@ -95,15 +69,29 @@ class Weather:
         print_line()
         print("|{:^40}|".format(" Location Data "))
         print_line()
-        for key, value in self.parser.parsed_location_data.items():
+        for key, value in self.location_data.items():
             print("| {:<15} : {:>20} |".format(key.capitalize(), value))
         print_line()
 
         # Print the weather data with a border
+        print_line()
         print("|{:^40}|".format(" Weather Data "))
         print_line()
-        for key, value in self.weather.items():
-            print("| {:<15} : {:>20} |".format(key.capitalize(), value))
+        print(
+            "| Today's Forecast Score : {:>11} |".format(
+                self.todays_forecast_evaluator.evaluate()
+            )
+        )
+        print(
+            "| Current Weather Score  : {:>11} |".format(
+                self.current_weather_evaluator.evaluate()
+            )
+        )
+        print(
+            "| Hourly Weather Score   : {:>11} |".format(
+                self.hourly_weather_evaluator.evaluate()
+            )
+        )
         print_line()
 
         # Find and print the worst conditions with a border
@@ -111,5 +99,5 @@ class Weather:
         print("|{:^40}|".format(" What Sucks Today "))
         print_line()
         for condition in worst_conditions:
-            print("|{:^40}|".format(condition.capitalize()))
+            print("|{:^40}|".format(condition))
         print_line()
