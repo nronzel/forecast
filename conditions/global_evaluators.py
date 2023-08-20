@@ -1,7 +1,7 @@
-from conditions.condition_evaluators import (
+from .condition_evaluators import (
     GustEvaluator,
     HumidityEvaluator,
-    PrecipEvaluator,
+    RainEvaluator,
     TempEvaluator,
     FeelsLikeEvaluator,
     UvEvaluator,
@@ -18,10 +18,10 @@ class TodaysForecastEvaluator(GlobalEvaluator):
             TempEvaluator(self.data["avg_temp"]),
             WindEvaluator(self.data["max_wind"]),
             HumidityEvaluator(self.data["avg_humidity"]),
-            PrecipEvaluator(self.data["rain_chance"]),
+            RainEvaluator(self.data["rain_chance"]),
             SnowEvaluator(self.data["snow_chance"]),
             ConditionEvaluator(
-                self.data["todays_condition"],
+                self.data["condition"],
             ),
         ]
 
@@ -35,7 +35,7 @@ class CurrentWeatherEvaluator(GlobalEvaluator):
             UvEvaluator(self.data["uv"]),
             WindEvaluator(self.data["wind"]),
             GustEvaluator(self.data["gust"]),
-            ConditionEvaluator(self.data["current_condition"]),
+            ConditionEvaluator(self.data["condition"]),
         ]
 
 
@@ -48,6 +48,6 @@ class HourlyWeatherEvaluator(GlobalEvaluator):
             UvEvaluator(self.data["uv"]),
             WindEvaluator(self.data["wind"]),
             GustEvaluator(self.data["gust"]),
-            PrecipEvaluator(self.data["chance_of_rain"]),
-            SnowEvaluator(self.data["chance_of_snow"]),
+            RainEvaluator(self.data["rain_chance"]),
+            SnowEvaluator(self.data["snow_chance"]),
         ]
