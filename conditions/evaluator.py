@@ -19,7 +19,7 @@ class GlobalEvaluator:
         for evaluator in self.get_evaluators():
             total_score += evaluator.evaluate()
             num_evaluators += 1
-        return total_score / num_evaluators if num_evaluators else 0
+        return round(total_score / num_evaluators) if num_evaluators else 0
 
     def get_evaluators(self):
         raise NotImplementedError
