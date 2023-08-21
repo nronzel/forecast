@@ -5,6 +5,7 @@ from conditions.global_evaluators import (
     HourlyWeatherEvaluator,
 )
 from api.parser import Parser
+from .pretty_printer import PrettyPrinter
 
 
 class Weather:
@@ -27,6 +28,9 @@ class Weather:
             self.parser.parsed_weather_data["hourly_weather"]
         )
         self.location_data = self.parser.parsed_location_data
+        self.todays_condition = self.parser.parsed_weather_data["todays_forecast"][
+            "condition"
+        ]
 
     def evaluate_conditions(self):
         """
@@ -43,61 +47,25 @@ class Weather:
         return self.parser.parsed_location_data
 
     def _find_worst_conditions(self):
-        """
-        Identifies the weather conditions with the lowest scores.
-        """
-        scores = {
-            "Today's Forecast": self.todays_forecast_evaluator.evaluate(),
-            "Current Weather": self.current_weather_evaluator.evaluate(),
-            "Hourly Weather": self.hourly_weather_evaluator.evaluate(),
+        all_worst_conditions = {}
+        for evaluator in [
+            self.todays_forecast_evaluator,
+            self.current_weather_evaluator,
+            self.hourly_weather_evaluator,
+        ]:
+            worst_conditions = evaluator.find_worst_conditions()
+            all_worst_conditions.update(worst_conditions)
+        return all_worst_conditions
+
+    def filter_worst_conditions(self, all_worst_conditions):
+        absolute_worst_score = min(all_worst_conditions.values())
+        return {
+            condition: score
+            for condition, score in all_worst_conditions.items()
+            if score == absolute_worst_score
         }
 
-        min_score = min(scores.values())
-        worst = [condition for condition, score in scores.items() if score == min_score]
-        return worst
-
     def pretty_print(self):
-        """
-        Displays the weather, location data, and worst conditions in a formatted
-        manner with borders.
-        """
-
-        def print_line():
-            print("+" + "-" * 40 + "+")
-
-        # Print the location data with a border
-        print_line()
-        print("|{:^40}|".format(" Location Data "))
-        print_line()
-        for key, value in self.location_data.items():
-            print("| {:<15} : {:>20} |".format(key.capitalize(), value))
-        print_line()
-
-        # Print the weather data with a border
-        print_line()
-        print("|{:^40}|".format(" Weather Data "))
-        print_line()
-        print(
-            "| Today's Forecast Score : {:>11} |".format(
-                self.todays_forecast_evaluator.evaluate()
-            )
-        )
-        print(
-            "| Current Weather Score  : {:>11} |".format(
-                self.current_weather_evaluator.evaluate()
-            )
-        )
-        print(
-            "| Hourly Weather Score   : {:>11} |".format(
-                self.hourly_weather_evaluator.evaluate()
-            )
-        )
-        print_line()
-
-        # Find and print the worst conditions with a border
         worst_conditions = self._find_worst_conditions()
-        print("|{:^40}|".format(" What Sucks Today "))
-        print_line()
-        for condition in worst_conditions:
-            print("|{:^40}|".format(condition))
-        print_line()
+        printer = PrettyPrinter(self, worst_conditions)
+        printer.print()
