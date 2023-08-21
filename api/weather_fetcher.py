@@ -79,7 +79,6 @@ class WeatherFetcher:
     def _test_location(self):
         url = self._build_url(1, "no", "no")
         response = requests.get(url)
-        print(url)
         if response.status_code != 200:
             return False
         return True
