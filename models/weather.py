@@ -39,8 +39,9 @@ class Weather:
         """
         todays_forecast_score = self.todays_forecast_evaluator.evaluate()
         current_weather_score = self.current_weather_evaluator.evaluate()
-        total = todays_forecast_score + current_weather_score
-        average_score = total / 2
+        hourly_weather_score = self.hourly_weather_evaluator.evaluate()
+        total = todays_forecast_score + current_weather_score + hourly_weather_score
+        average_score = total / 3
         return round(average_score)
 
     def get_location_data(self):
