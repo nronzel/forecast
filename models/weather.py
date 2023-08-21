@@ -27,7 +27,6 @@ class Weather:
         self.hourly_weather_evaluator = HourlyWeatherEvaluator(
             self.parser.parsed_weather_data["hourly_weather"]
         )
-        self.location_data = self.parser.parsed_location_data
         self.todays_condition = self.parser.parsed_weather_data["todays_forecast"][
             "condition"
         ]
