@@ -27,6 +27,11 @@ is chosen and shown to the user.
 In a future release I will be adding more responses based on the worst
 weather conditions of the day.
 
+### The Scores
+
+Each weather condition is evaluated on a scale of **1 - 10**. With 10 being ideal
+conditions, and 1 being horrible conditions (hot, very humid or dry, windy, etc.)
+
 TODO:
 
 - [ ] Input Sanitization for location & api key
