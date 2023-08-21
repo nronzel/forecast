@@ -27,9 +27,6 @@ class Weather:
         self.hourly_weather_evaluator = HourlyWeatherEvaluator(
             self.parser.parsed_weather_data["hourly_weather"]
         )
-        self.todays_condition = self.parser.parsed_weather_data["todays_forecast"][
-            "condition"
-        ]
 
     def evaluate_conditions(self):
         """
@@ -45,6 +42,9 @@ class Weather:
 
     def get_location_data(self):
         return self.parser.parsed_location_data
+
+    def get_todays_condition(self):
+        return self.parser.parsed_weather_data["todays_forecast"]["condition"]
 
     def _find_worst_conditions(self):
         all_worst_conditions = {}

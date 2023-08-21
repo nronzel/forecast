@@ -40,7 +40,7 @@ class PrettyPrinter:
             print("| {:<15} : {:>20} |".format(key.capitalize(), value))
 
     def print_todays_condition(self):
-        print("|{:^40}|".format(self.weather.todays_condition))
+        print("|{:^40}|".format(self.weather.get_todays_condition()))
 
     def print_todays_forecast(self):
         forecast = self.get_todays_forecast()
