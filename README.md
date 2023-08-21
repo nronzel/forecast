@@ -2,8 +2,11 @@
 
 ## Description
 
-Fetches the weather based on IP address, and let's you know whether you can
-go golfing or not.
+Fetches the weather and let's you know whether you can go golfing or not.
+
+Uses a provided location, or if no location is provided it defaults to IP
+address geolocation. This default is not very accurate, and may get a city near
+you but not your exact location.
 
 ![screenshot](./output.png)
 
@@ -25,8 +28,5 @@ In a future release I will be adding more responses based on the worst
 weather conditions of the day.
 
 TODO:
-Not running in its current state, should have created a new branch but you live
-and you learn.
 
-Pushed latest code to work on later at my home computer.
-
+- [ ] Input Sanitization for location & api key
