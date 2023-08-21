@@ -137,13 +137,3 @@ class SnowEvaluator(Evaluator):
 
     def evaluate(self):
         return self.find_score(self.scoring_ranges, self.snow_chance)
-
-
-# TODO assign scoring range numbers of conditions to numbers
-class ConditionEvaluator(Evaluator):
-    def __init__(self, condition: str):
-        self.condition = condition
-        self.scoring_ranges = []
-
-    def evaluate(self):
-        return self.find_score(self.scoring_ranges, self.condition)
