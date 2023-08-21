@@ -38,9 +38,7 @@ class PrettyPrinter:
         print("|{:^40}|".format(self.weather.todays_condition))
 
     def get_total_score(self):
-        sum = self.todays_score + self.current_weather_score + self.hourly_score
-        average = round(sum / 3)
-        return average
+        return self.weather.evaluate_conditions()
 
     def print_weather_scores(self):
         print(
@@ -58,7 +56,11 @@ class PrettyPrinter:
                 self.weather.hourly_weather_evaluator.evaluate()
             )
         )
-        print("| Average Score          : {:>13} |".format(self.get_total_score()))
+        print(
+            "| Average Score          : {:>13} |".format(
+                self.weather.evaluate_conditions()
+            )
+        )
 
     def print_worst_conditions(self):
         filtered_worst_conditions = self.weather.filter_worst_conditions(
