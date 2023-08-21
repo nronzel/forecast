@@ -76,8 +76,6 @@ class PrettyPrinter:
         )
 
     def print_worst_conditions(self):
-        filtered_worst_conditions = self.weather.filter_worst_conditions(
-            self.worst_conditions
-        )
+        filtered_worst_conditions = self.weather.evaluate_worst_conditions()
         for condition, score in filtered_worst_conditions.items():
             print("| {:<15} : {:>20} |".format(condition, score))

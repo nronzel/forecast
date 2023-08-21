@@ -137,3 +137,29 @@ class SnowEvaluator(Evaluator):
 
     def evaluate(self):
         return self.find_score(self.scoring_ranges, self.snow_chance)
+
+
+class ConditionEvaluator(Evaluator):
+    def __init__(self, tf_eval, cur_eval, hour_eval):
+        self.todays_forecast_evaluator = tf_eval
+        self.current_weather_evaluator = cur_eval
+        self.hourly_weather_evaluator = hour_eval
+
+    def evaluate(self):
+        all_worst_conditions = {}
+        for evaluator in [
+            self.todays_forecast_evaluator,
+            self.current_weather_evaluator,
+            self.hourly_weather_evaluator,
+        ]:
+            worst_conditions = evaluator.find_worst_conditions()
+            all_worst_conditions.update(worst_conditions)
+        return all_worst_conditions
+
+    def filter_worst_conditions(self, all_worst_conditions):
+        absolute_worst_score = min(all_worst_conditions.values())
+        return {
+            condition: score
+            for condition, score in all_worst_conditions.items()
+            if score == absolute_worst_score
+        }

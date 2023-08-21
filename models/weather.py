@@ -1,9 +1,9 @@
-from conditions.evaluator import *
 from conditions.global_evaluators import (
     TodaysForecastEvaluator,
     CurrentWeatherEvaluator,
     HourlyWeatherEvaluator,
 )
+from conditions.condition_evaluators import ConditionEvaluator
 from api.parser import Parser
 from .pretty_printer import PrettyPrinter
 
@@ -46,26 +46,19 @@ class Weather:
     def get_todays_condition(self):
         return self.parser.parsed_weather_data["todays_forecast"]["condition"]
 
-    def _find_worst_conditions(self):
-        all_worst_conditions = {}
-        for evaluator in [
+    def evaluate_worst_conditions(self):
+        condition_evaluator = ConditionEvaluator(
             self.todays_forecast_evaluator,
             self.current_weather_evaluator,
             self.hourly_weather_evaluator,
-        ]:
-            worst_conditions = evaluator.find_worst_conditions()
-            all_worst_conditions.update(worst_conditions)
-        return all_worst_conditions
-
-    def filter_worst_conditions(self, all_worst_conditions):
-        absolute_worst_score = min(all_worst_conditions.values())
-        return {
-            condition: score
-            for condition, score in all_worst_conditions.items()
-            if score == absolute_worst_score
-        }
+        )
+        worst_conditions = condition_evaluator.evaluate()
+        filtered_worst_conditions = condition_evaluator.filter_worst_conditions(
+            worst_conditions
+        )
+        return filtered_worst_conditions
 
     def pretty_print(self):
-        worst_conditions = self._find_worst_conditions()
+        worst_conditions = self.evaluate_worst_conditions()
         printer = PrettyPrinter(self, worst_conditions)
         printer.print()
