@@ -6,6 +6,9 @@ class PrettyPrinter:
         self.current_weather_score = self.weather.current_weather_evaluator.evaluate()
         self.hourly_score = self.weather.hourly_weather_evaluator.evaluate()
 
+    def get_todays_forecast(self):
+        return self.weather.parser.parsed_weather_data["todays_forecast"]
+
     def print(self):
         self.print_header("Location Data")
         self.print_location_data()
@@ -13,6 +16,7 @@ class PrettyPrinter:
 
         self.print_header("Today's Forecast")
         self.print_todays_condition()
+        self.print_todays_forecast()
         self.print_footer()
 
         self.print_header("Weather Scores")
@@ -31,11 +35,20 @@ class PrettyPrinter:
         print("+" + "-" * 40 + "+")
 
     def print_location_data(self):
-        for key, value in self.weather.location_data.items():
+        location_data = self.weather.get_location_data()
+        for key, value in location_data.items():
             print("| {:<15} : {:>20} |".format(key.capitalize(), value))
 
     def print_todays_condition(self):
         print("|{:^40}|".format(self.weather.todays_condition))
+
+    def print_todays_forecast(self):
+        forecast = self.get_todays_forecast()
+        for key, value in forecast.items():
+            # skip listing the condition, we're already printing it
+            if key == "condition":
+                continue
+            print("| {:<15} : {:>20} |".format(key.capitalize(), value))
 
     def get_total_score(self):
         return self.weather.evaluate_conditions()
