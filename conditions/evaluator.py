@@ -23,3 +23,16 @@ class GlobalEvaluator:
 
     def get_evaluators(self):
         raise NotImplementedError
+
+    def find_worst_conditions(self):
+        worst_score = float("inf")
+        worst_conditions = set()
+        for evaluator in self.get_evaluators():
+            score = evaluator.evaluate()
+            condition_name = type(evaluator).__name__.replace("Evaluator", "")
+            if score < worst_score:
+                worst_score = score
+                worst_conditions = {(condition_name, score)}
+            elif score == worst_score:
+                worst_conditions.add((condition_name, score))
+        return worst_conditions
