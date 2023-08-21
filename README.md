@@ -35,3 +35,6 @@ conditions, and 1 being horrible conditions (hot, very humid or dry, windy, etc.
 TODO:
 
 - [ ] Input Sanitization for location & api key
+- [ ] Finalize the output
+- [ ] Revisit the phrases one more time and refine
+- [ ] Refactor the current code as it is
