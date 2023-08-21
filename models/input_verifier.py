@@ -1,16 +1,16 @@
 import re
 
 
-class Sanitizer:
-    def sanitize(self):
+class Verifier:
+    def verify(self):
         raise NotImplementedError
 
 
-class LocationSanitizer(Sanitizer):
+class LocationVerifier(Verifier):
     def __init__(self, location):
         self.location = location
 
-    def sanitize(self):
+    def verify(self):
         if self.is_zip_code(self.location):
             return "zip_code", self.location
         elif self.is_city_state(self.location):
@@ -39,9 +39,9 @@ class LocationSanitizer(Sanitizer):
         return location == "auto:ip"
 
 
-class ApiKeySanitizer(Sanitizer):
+class ApiKeyVerifier(Verifier):
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def sanitize(self):
+    def verify(self):
         return bool(re.fullmatch(r"[a-zA-Z0-9]{32}", self.api_key))
