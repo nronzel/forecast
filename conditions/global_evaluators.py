@@ -7,7 +7,6 @@ from .condition_evaluators import (
     UvEvaluator,
     WindEvaluator,
     SnowEvaluator,
-    ConditionEvaluator,
 )
 from .evaluator import GlobalEvaluator
 
@@ -20,9 +19,6 @@ class TodaysForecastEvaluator(GlobalEvaluator):
             HumidityEvaluator(self.data["avg_humidity"]),
             RainEvaluator(self.data["rain_chance"]),
             SnowEvaluator(self.data["snow_chance"]),
-            ConditionEvaluator(
-                self.data["condition"],
-            ),
         ]
 
 
@@ -35,7 +31,6 @@ class CurrentWeatherEvaluator(GlobalEvaluator):
             UvEvaluator(self.data["uv"]),
             WindEvaluator(self.data["wind"]),
             GustEvaluator(self.data["gust"]),
-            ConditionEvaluator(self.data["condition"]),
         ]
 
 
