@@ -11,16 +11,12 @@ class LocationVerifier(Verifier):
         self.location = location
 
     def verify(self) -> bool:
-        if self.is_zip_code(self.location):
-            return True
-        elif self.is_city_state(self.location):
-            return True
-        elif self.is_city(self.location):
-            return True
-        elif self.is_default(self.location):
-            return True
-        else:
-            return False
+        return (
+            self.is_zip_code(self.location)
+            or self.is_city_state(self.location)
+            or self.is_city(self.location)
+            or self.is_default(self.location)
+        )
 
     @staticmethod
     def is_zip_code(location: str) -> bool:
