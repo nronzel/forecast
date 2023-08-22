@@ -29,7 +29,7 @@ You can check your current Python version with the command
 python --version
 ```
 
-Clone this project to a location directory of your choice
+Clone this project to a directory of your choice
 
 ```bash
 git clone https://github.com/nronzel/forecast.git
@@ -69,6 +69,13 @@ Scores are given to each weather condition on a scale of 1 - 10, with 10 being
 the most favorable conditions and 1 being horrible conditions. These scores are
 used to evaluate an overall score for the day and based on that overall score,
 a response is printed out.
+
+## Testing
+
+You can run the current test suite with
+```bash
+python tests.py -v
+```
 
 ## Future Features
 - Specialized messages based on what weather conditions suck for the day
