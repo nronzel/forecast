@@ -11,6 +11,8 @@ class LocationVerifier(Verifier):
         self.location = location
 
     def verify(self) -> bool:
+        if self.location is None:
+            return False
         return (
             self.is_zip_code(self.location)
             or self.is_city_state(self.location)
