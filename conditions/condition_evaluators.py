@@ -145,7 +145,7 @@ class ConditionEvaluator(Evaluator):
         self.current_weather_evaluator = cur_eval
         self.hourly_weather_evaluator = hour_eval
 
-    def evaluate(self):
+    def evaluate(self):  # returns all of the worst conditions
         all_worst_conditions = {}
         for evaluator in [
             self.todays_forecast_evaluator,
