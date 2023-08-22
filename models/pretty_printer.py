@@ -16,6 +16,7 @@ class PrettyPrinter:
 
         self.print_header("Today's Forecast")
         self.print_todays_condition()
+        self.print_feels_like()
         self.print_todays_forecast()
         self.print_footer()
 
@@ -41,6 +42,12 @@ class PrettyPrinter:
 
     def print_todays_condition(self):
         print("|{:^40}|".format(self.weather.get_todays_condition()))
+
+    def print_feels_like(self):
+        current = self.weather.parser.parsed_weather_data["current_weather"]
+        for key, value in current.items():
+            if key == "feels_like":
+                print("| {:<15} : {:>20} |".format(key.capitalize(), value))
 
     def print_todays_forecast(self):
         forecast = self.get_todays_forecast()
