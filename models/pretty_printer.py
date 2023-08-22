@@ -2,6 +2,7 @@ class PrettyPrinter:
     """
     Responsible for printing the output to the console with all of the data.
     """
+
     def __init__(self, weather, worst_conditions):
         self.weather = weather
         self.worst_conditions = worst_conditions
@@ -39,7 +40,7 @@ class PrettyPrinter:
         print("+" + "-" * 40 + "+")
 
     def print_location_data(self):
-        location_data = self.weather.get_location_data()
+        location_data = self.weather.parser.parsed_location_data
         for key, value in location_data.items():
             print("| {:<15} : {:>20} |".format(key.capitalize(), value))
 

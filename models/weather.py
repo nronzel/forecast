@@ -14,9 +14,6 @@ class Weather:
     """
 
     def __init__(self, weather_data):
-        """
-        Constructs the Weather object with provided weather data and evaluators.
-        """
         self.parser = Parser(weather_data)
         self.todays_forecast_evaluator = TodaysForecastEvaluator(
             self.parser.parsed_weather_data["todays_forecast"]
@@ -29,19 +26,13 @@ class Weather:
         )
 
     def evaluate_conditions(self):
-        """
-        Evaluates the overall weather conditions based on individual condition
-        scores.
-        """
+        # returns a score based on all of the weather datas individual scores
         todays_forecast_score = self.todays_forecast_evaluator.evaluate()
         current_weather_score = self.current_weather_evaluator.evaluate()
         hourly_weather_score = self.hourly_weather_evaluator.evaluate()
         total = todays_forecast_score + current_weather_score + hourly_weather_score
         average_score = total / 3
         return round(average_score)
-
-    def get_location_data(self):
-        return self.parser.parsed_location_data
 
     def get_todays_condition(self):
         return self.parser.parsed_weather_data["todays_forecast"]["condition"]
