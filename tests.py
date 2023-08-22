@@ -173,9 +173,7 @@ class TestHelpers(unittest.TestCase):
         ]
 
         evaluator = Evaluator()
-        values = generate_floats(
-            150, 10000
-        )  # Assuming this function is defined elsewhere
+        values = generate_floats(150, 10000)
 
         for value in values:
             with self.subTest(value=value):
