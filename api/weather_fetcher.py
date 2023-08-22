@@ -34,11 +34,11 @@ class WeatherFetcher:
         if not api_key:
             key = getpass(
                 """
-    Please provide a free tier WeatherAPI API key.
-    Any key provided here is just written to a .env file
-    at the root of the project.
+ Please provide a free tier WeatherAPI API key.
+ Any key provided here is just written to a .env file
+ at the root of the project.
 
-    (Input will be hidden.) \n
+ (Input will be hidden.) \n
     """
             )
             cls._write_api_key_to_env(key)
