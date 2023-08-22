@@ -23,7 +23,7 @@ class PrettyPrinter:
         self.print_weather_scores()
         self.print_footer()
 
-        self.print_header("What Sucks Today")
+        self.print_header("Today's Worst Conditions")
         self.print_worst_conditions()
         self.print_footer()
 
