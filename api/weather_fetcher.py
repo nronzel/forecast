@@ -39,7 +39,7 @@ class WeatherFetcher:
  at the root of the project.
 
  (Input will be hidden.) \n
-    """
+ """
             )
             cls._write_api_key_to_env(key)
             return key
