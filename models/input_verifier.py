@@ -49,5 +49,5 @@ class ApiKeyVerifier(Verifier):
         if self.api_key is None:
             return False
         return bool(
-            re.fullmatch(r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{32}$", self.api_key)
+            re.fullmatch(r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{31}$", self.api_key)
         )
