@@ -52,18 +52,21 @@ class WeatherFetcher:
     def get_location(self):
         while True:
             location = input("Enter your location (or leave empty for auto): ")
+
             if location == "":
-                location = "auto:ip"
-                self._location = location
+                self._location = "auto:ip"
                 break
-            valid = self._check_location(location)
-            self._location = location
-            if not valid or not self._test_location():
-                print("Invalid location, please check and try again.")
-                self._location = None
+
+            if self._check_location(location):
+                self._location = location
+
+                if self._test_location():
+                    break
+                else:
+                    print("Invalid location, please check and try again.")
+                    self._location = None
             else:
-                self._location = location
-                break
+                print("Invalid location, please check and try again.")
 
     def _build_url(self, days: int, aqi="no", alerts="no"):
         endpoint = "/forecast.json"
