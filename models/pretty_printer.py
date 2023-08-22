@@ -1,4 +1,7 @@
 class PrettyPrinter:
+    """
+    Responsible for printing the output to the console with all of the data.
+    """
     def __init__(self, weather, worst_conditions):
         self.weather = weather
         self.worst_conditions = worst_conditions
