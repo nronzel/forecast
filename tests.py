@@ -91,6 +91,7 @@ class TestLocationVerifier(unittest.TestCase):
         invalid_test_cases = [
             "000000",
             "0000",
+            None,
         ]
         for location in invalid_test_cases:
             with self.subTest(location=location):
