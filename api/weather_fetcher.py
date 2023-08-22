@@ -3,6 +3,7 @@ import requests
 from dotenv import load_dotenv, set_key
 from urllib.parse import urlencode
 from models.input_verifier import ApiKeyVerifier, LocationVerifier
+from getpass import getpass
 
 
 class WeatherFetcher:
@@ -20,21 +21,25 @@ class WeatherFetcher:
     @classmethod
     def _write_api_key_to_env(cls, api_key):
         valid = cls._check_api_key(api_key)
-        if not valid:
+        if valid:
+            set_key(cls._ENV_FILE, cls._API_KEY_ENV_VAR, api_key)
+            print("Valid key provided, please proceed.\n")
+        else:
             print("Invalid API key provided. Please check and try again.")
-        set_key(cls._ENV_FILE, cls._API_KEY_ENV_VAR, api_key)
 
     @classmethod
     def _load_api_key(cls):
         load_dotenv(cls._ENV_FILE)
         api_key = os.environ.get(cls._API_KEY_ENV_VAR)
         if not api_key:
-            key = input(
+            key = getpass(
                 """
-                Please provide a free tier WeatherAPI API key.
-                Any key provided here is just written to a .env file
-                at the root of the project.
-                """
+    Please provide a free tier WeatherAPI API key.
+    Any key provided here is just written to a .env file
+    at the root of the project.
+
+    (Input will be hidden.) \n
+    """
             )
             cls._write_api_key_to_env(key)
             return key
@@ -86,10 +91,12 @@ class WeatherFetcher:
             return True
         return False
 
-    def _check_location(self, location):
+    @staticmethod
+    def _check_location(location):
         location_verifier = LocationVerifier(location)
         return location_verifier.verify()
 
-    def _check_api_key(self):
-        api_key_verifier = ApiKeyVerifier(self._api_key)
+    @staticmethod
+    def _check_api_key(api_key):
+        api_key_verifier = ApiKeyVerifier(api_key)
         return api_key_verifier.verify()
