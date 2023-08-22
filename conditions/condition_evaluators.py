@@ -140,6 +140,8 @@ class SnowEvaluator(Evaluator):
 
 
 class ConditionEvaluator(Evaluator):
+    # evaluates the worst conditions from the global evaluators from each
+    # weather category.
     def __init__(self, tf_eval, cur_eval, hour_eval):
         self.todays_forecast_evaluator = tf_eval
         self.current_weather_evaluator = cur_eval
