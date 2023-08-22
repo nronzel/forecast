@@ -25,14 +25,18 @@ class GlobalEvaluator:
         raise NotImplementedError
 
     def find_worst_conditions(self):
-        worst_score = float("inf")
-        worst_conditions = set()
+        worst_conditions = {}
+
         for evaluator in self.get_evaluators():
             score = evaluator.evaluate()
             condition_name = type(evaluator).__name__.replace("Evaluator", "")
-            if score < worst_score:
-                worst_score = score
-                worst_conditions = {(condition_name, score)}
-            elif score == worst_score:
-                worst_conditions.add((condition_name, score))
+
+            if condition_name not in worst_conditions:
+                worst_conditions[condition_name] = {"score": score, "counter": 1}
+            else:
+                worst_conditions[condition_name]["counter"] += 1
+                worst_conditions[condition_name]["score"] = min(
+                    worst_conditions[condition_name]["score"], score
+                )
+
         return worst_conditions
