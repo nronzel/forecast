@@ -126,7 +126,7 @@ class TestLocationVerifier(unittest.TestCase):
 
 class TestApiVerifier(unittest.TestCase):
     def test_valid_api_key(self):
-        verifier = ApiKeyVerifier("1234567890ABCDEFGHIJKLMNOPQRSTUV")
+        verifier = ApiKeyVerifier("1234567890ABCDEFGHIJKLMNOPQRSTU")
         self.assertTrue(verifier.verify())
 
     def test_invalid_characters(self):
