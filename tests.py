@@ -161,7 +161,7 @@ Helper Testing
 
 class TestHelpers(unittest.TestCase):
     def test_find_score(self):
-        list = [
+        score_ranges = [
             ((45, 50.99), 2),
             ((51, 60.99), 5),
             ((61, 65.99), 6),
@@ -172,19 +172,21 @@ class TestHelpers(unittest.TestCase):
             ((87, 93.99), 3),
         ]
 
-        eval = Evaluator()
-        values = generate_floats(150, 10000)
+        evaluator = Evaluator()
+        values = generate_floats(
+            150, 10000
+        )  # Assuming this function is defined elsewhere
+
         for value in values:
-            score = eval.find_score(list, value)
-            expected = 1
-            for (min, max), s in list:
-                if min <= value <= max:
-                    expected = s
-                    break
-                expected = 1
-            self.assertEqual(
-                score, expected, f"curr {value}, expected {expected}, got {score}"
-            )
+            with self.subTest(value=value):
+                actual_score = evaluator.find_score(score_ranges, value)
+                expected_score = find_expected_score(score_ranges, value)
+
+                self.assertEqual(
+                    actual_score,
+                    expected_score,
+                    f"For value {value}, expected {expected_score}, but got {actual_score}",
+                )
 
 
 # loops through the EVALUATORS and tests each one
@@ -196,6 +198,13 @@ for evaluator_info in EVALUATORS:
 # helpers
 def generate_floats(max_num, num_amount):
     return [round(random.uniform(0, max_num), 2) for _ in range(num_amount)]
+
+
+def find_expected_score(score_ranges, value):
+    for (min_val, max_val), score in score_ranges:
+        if min_val <= value <= max_val:
+            return score
+    return 1
 
 
 if __name__ == "__main__":
