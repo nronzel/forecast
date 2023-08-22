@@ -26,7 +26,9 @@ EVALUATORS = [
     {"class": SnowEvaluator, "param": "snow_chance"},
 ]
 
-
+"""
+Evaluator Testing
+"""
 class TestEvaluators(unittest.TestCase):
     def evaluator_test(self, evaluator_class):
         values = generate_floats(150, 10000)
@@ -47,7 +49,9 @@ class TestEvaluators(unittest.TestCase):
                 score, expected, f"curr {value}, expected {expected}, got {score}"
             )
 
-
+"""
+Response Testing
+"""
 class TestResponses(unittest.TestCase):
     def test_response_manager_responses(self):
         rm = ResponseManager()
@@ -72,7 +76,9 @@ class TestResponses(unittest.TestCase):
                     )
                     break
 
-
+"""
+Verifier Testing
+"""
 class TestLocationVerifier(unittest.TestCase):
     def test_valid_locations(self):
         valid_test_cases = [
@@ -91,6 +97,7 @@ class TestLocationVerifier(unittest.TestCase):
         invalid_test_cases = [
             "000000",
             "0000",
+            "$@^^$()",
             None,
         ]
         for location in invalid_test_cases:
@@ -131,6 +138,9 @@ class TestApiVerifier(unittest.TestCase):
         self.assertFalse(verifier.verify())
 
 
+"""
+Helper Testing
+"""
 class TestHelpers(unittest.TestCase):
     def test_find_score(self):
         list = [
