@@ -145,21 +145,63 @@ class ConditionEvaluator(Evaluator):
         self.current_weather_evaluator = cur_eval
         self.hourly_weather_evaluator = hour_eval
 
-    def evaluate(self):  # returns all of the worst conditions
+    def evaluate(self):
         all_worst_conditions = {}
+        lowest_score = float("inf")  # Initialize to a high value
+
+        # Collect all worst conditions from individual evaluators
         for evaluator in [
             self.todays_forecast_evaluator,
             self.current_weather_evaluator,
             self.hourly_weather_evaluator,
         ]:
             worst_conditions = evaluator.find_worst_conditions()
-            all_worst_conditions.update(worst_conditions)
-        return all_worst_conditions
+
+            for condition, score in worst_conditions.items():
+                if condition not in all_worst_conditions:
+                    all_worst_conditions[condition] = {
+                        "score": score,
+                        "counter": 1,
+                    }
+                else:
+                    all_worst_conditions[condition]["counter"] += 1
+                    all_worst_conditions[condition]["score"] = min(
+                        all_worst_conditions[condition]["score"], score
+                    )
+
+                # Update the lowest score if necessary
+                lowest_score = min(lowest_score, score)
+
+        # Filter out conditions that do not have the lowest score
+        final_worst_conditions = {
+            condition: details
+            for condition, details in all_worst_conditions.items()
+            if details["score"] == lowest_score
+        }
+
+        return final_worst_conditions
 
     def filter_worst_conditions(self, all_worst_conditions):
-        absolute_worst_score = min(all_worst_conditions.values())
-        return {
-            condition: score
-            for condition, score in all_worst_conditions.items()
-            if score == absolute_worst_score
+        # Find the highest occurrence count
+        highest_occurrence = max(
+            details["counter"] for details in all_worst_conditions.values()
+        )
+
+        # Filter the conditions with the highest occurrence count
+        filtered_conditions = {
+            condition: details["score"]
+            for condition, details in all_worst_conditions.items()
+            if details["counter"] == highest_occurrence
         }
+
+        # If needed, find the worst score among those with the highest occurrence
+        worst_score_among_highest_occurrence = min(filtered_conditions.values())
+
+        # Further filter by worst score if necessary
+        final_filtered_conditions = {
+            condition: score
+            for condition, score in filtered_conditions.items()
+            if score == worst_score_among_highest_occurrence
+        }
+
+        return final_filtered_conditions
