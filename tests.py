@@ -1,5 +1,6 @@
 import unittest
 import random
+from models.input_verifier import LocationVerifier, ApiKeyVerifier
 
 from responses.response_manager import ResponseManager
 from conditions.evaluator import Evaluator
@@ -47,7 +48,7 @@ class TestEvaluators(unittest.TestCase):
             )
 
 
-class Tests(unittest.TestCase):
+class TestResponses(unittest.TestCase):
     def test_response_manager_responses(self):
         rm = ResponseManager()
         test_scores = generate_floats(10, 10000)
@@ -71,6 +72,65 @@ class Tests(unittest.TestCase):
                     )
                     break
 
+
+class TestLocationVerifier(unittest.TestCase):
+    def test_valid_locations(self):
+        valid_test_cases = [
+            "90210",
+            "san francisco",
+            "san francisco ca",
+            "new york",
+            "00000",
+        ]
+        for location in valid_test_cases:
+            with self.subTest(location=location):
+                verifier = LocationVerifier(location)
+                self.assertTrue(verifier.verify(), f"Expected {location} to be valid")
+
+    def test_invalid_locations(self):
+        invalid_test_cases = [
+            "000000",
+            "0000",
+        ]
+        for location in invalid_test_cases:
+            with self.subTest(location=location):
+                verifier = LocationVerifier(location)
+                self.assertFalse(
+                    verifier.verify(), f"Expected {location} to be invalid"
+                )
+
+
+class TestApiVerifier(unittest.TestCase):
+    def test_valid_api_key(self):
+        verifier = ApiKeyVerifier("1234567890ABCDEFGHIJKLMNOPQRSTUV")
+        self.assertTrue(verifier.verify())
+
+    def test_invalid_characters(self):
+        verifier = ApiKeyVerifier("1234567890ABC!@#XYZ")
+        self.assertFalse(verifier.verify())
+
+    def test_invalid_length_short(self):
+        verifier = ApiKeyVerifier("12345")
+        self.assertFalse(verifier.verify())
+
+    def test_invalid_length_long(self):
+        verifier = ApiKeyVerifier("123456789012345678901234567890123")
+        self.assertFalse(verifier.verify())
+
+    def test_not_just_numbers(self):
+        verifier = ApiKeyVerifier("12345678901234567890123456789012")
+        self.assertFalse(verifier.verify())
+
+    def test_empty_string(self):
+        verifier = ApiKeyVerifier("")
+        self.assertFalse(verifier.verify())
+
+    def test_null_string(self):
+        verifier = ApiKeyVerifier(None)
+        self.assertFalse(verifier.verify())
+
+
+class TestHelpers(unittest.TestCase):
     def test_find_score(self):
         list = [
             ((45, 50.99), 2),
