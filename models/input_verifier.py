@@ -20,14 +20,17 @@ class LocationVerifier(Verifier):
 
     @staticmethod
     def is_zip_code(location: str) -> bool:
+        # contains only 5 numbers
         return bool(re.fullmatch(r"\d{5}", location))
 
     @staticmethod
     def is_city_state(location: str) -> bool:
+        # any string of chars with a space plus a space with another char string
         return bool(re.fullmatch(r"[a-zA-Z\s]+[,\s]\s*[a-zA-Z\s]+", location))
 
     @staticmethod
     def is_city(location: str) -> bool:
+        # any string of chars that could also contain a space
         return bool(re.fullmatch(r"[a-zA-Z\s]+", location))
 
     @staticmethod
@@ -40,4 +43,9 @@ class ApiKeyVerifier(Verifier):
         self.api_key = api_key
 
     def verify(self) -> bool:
-        return bool(re.fullmatch(r"[a-zA-Z0-9]{32}", self.api_key))
+        # checks if the api key has length of 32 and contains letter and numbers
+        if self.api_key is None:
+            return False
+        return bool(
+            re.fullmatch(r"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{32}$", self.api_key)
+        )
