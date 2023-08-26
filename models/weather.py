@@ -34,6 +34,12 @@ class Weather:
         average_score = total / 3
         return round(average_score)
 
+    def evaluate_median_scores(self):
+        todays_forecast_median = self.todays_forecast_evaluator.get_median_score()
+        current_weather_median = self.current_weather_evaluator.get_median_score()
+        hourly_weather_median = self.hourly_weather_evaluator.get_median_score()
+        return todays_forecast_median, current_weather_median, hourly_weather_median
+
     def get_todays_condition(self):
         return self.parser.parsed_weather_data["todays_forecast"]["condition"]
 
