@@ -15,7 +15,7 @@ class TempEvaluator(Evaluator):
             ((105.01, 120.00), 1),  # Extremely hot
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.temp)
 
 
@@ -33,7 +33,7 @@ class FeelsLikeEvaluator(Evaluator):
             ((105.01, 120.00), 1),  # Extremely hot
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.feels_like)
 
 
@@ -50,7 +50,7 @@ class HumidityEvaluator(Evaluator):
             ((90.01, 100.00), 1),  # Extremely humid
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.humidity)
 
 
@@ -65,7 +65,7 @@ class UvEvaluator(Evaluator):
             ((10.01, 15), 2),  # Extreme risk
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.uv)
 
 
@@ -80,7 +80,7 @@ class WindEvaluator(Evaluator):
             ((29.01, 40), 1),  # Extremely challenging
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.wind)
 
 
@@ -95,7 +95,7 @@ class GustEvaluator(Evaluator):
             ((35.01, 50), 2),  # Extremely challenging
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.gust)
 
 
@@ -115,7 +115,7 @@ class RainEvaluator(Evaluator):
             ((90.01, 100), 1),  # Almost certain heavy rain
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.rain_chance)
 
 
@@ -135,7 +135,7 @@ class SnowEvaluator(Evaluator):
             ((90.01, 100), 1),  # Almost certain heavy snow
         ]
 
-    def evaluate(self):
+    def evaluate(self) -> int:
         return self.find_score(self.scoring_ranges, self.snow_chance)
 
 
