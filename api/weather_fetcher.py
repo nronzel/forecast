@@ -14,9 +14,9 @@ class WeatherFetcher:
     _ENV_FILE = ".env"
     _API_KEY_ENV_VAR = "WEATHER_API_KEY"
 
-    def __init__(self, location=None):
+    def __init__(self):
         self._api_key = self._load_api_key()
-        self._location = location
+        self._location = None
 
     @classmethod
     def _write_api_key_to_env(cls, api_key):
