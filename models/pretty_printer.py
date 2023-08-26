@@ -26,6 +26,8 @@ class PrettyPrinter:
 
         self.print_header("Weather Scores")
         self.print_weather_scores()
+        self.print_header("Median Scores")
+        self.print_median_scores()
         self.print_footer()
 
         self.print_header("Today's Worst Conditions")
@@ -84,6 +86,17 @@ class PrettyPrinter:
             "| Average Score          : {:>13} |".format(
                 self.weather.evaluate_conditions()
             )
+        )
+
+    def print_median_scores(self):
+        print(
+            "| Today's Median Score : {:>15} |".format(self.weather.evaluate_median_scores()[0])
+        )
+        print(
+            "| Current Median Score  : {:>14} |".format(self.weather.evaluate_median_scores()[1])
+        )
+        print(
+            "| Hourly Median Score   : {:>14} |".format(self.weather.evaluate_median_scores()[2])
         )
 
     def print_worst_conditions(self):
