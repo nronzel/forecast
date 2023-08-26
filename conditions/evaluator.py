@@ -1,3 +1,6 @@
+import statistics
+
+
 class Evaluator:
     def evaluate(self):
         raise NotImplementedError
@@ -20,6 +23,10 @@ class GlobalEvaluator:
             total_score += evaluator.evaluate()
             num_evaluators += 1
         return round(total_score / num_evaluators) if num_evaluators else 0
+
+    def get_median_score(self):
+        scores = [evaluator.evaluate() for evaluator in self.get_evaluators()]
+        return statistics.median(scores)
 
     def get_evaluators(self):
         raise NotImplementedError
